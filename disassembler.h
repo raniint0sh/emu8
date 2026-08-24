@@ -5,13 +5,8 @@
 #include <string>
 #include <format>
 
-
 #ifndef DISASEMBLER_H // include guard
 #define DISASEMBLER_H
-
-static uint8_t BIT_SHIT_TO_4_NIBBLE = 12;
-static uint8_t BIT_SHIT_TO_3_NIBBLE = 8;
-static uint8_t BIT_SHIT_TO_2_NIBBLE = 4;
 
 class Disassembler
 {
@@ -29,12 +24,12 @@ class Disassembler
         void Handle_2_instructions(uint16_t instruction);
         void Handle_3_instructions(uint16_t instruction);
         void Handle_4_instructions(uint16_t instruction);
+        void Handle_5_instructions(uint16_t instruction);
+        void Handle_6_instructions(uint16_t instruction);
+        void Handle_7_instructions(uint16_t instruction);
+        void Handle_8_instructions(uint16_t instruction);
 
     
 };
-
-
-
-
 
 #endif
