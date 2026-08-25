@@ -26,6 +26,21 @@ int main()
     dis.Disassemble(0x8135);
 
     dis.Disassemble(0x8246);
+    dis.Disassemble(0x9560);
+    dis.Disassemble(0xA555);
+    dis.Disassemble(0xB222);
+    dis.Disassemble(0xCEFF);
+    dis.Disassemble(0xDAE8);
+    dis.Disassemble(0xE59E);
+    dis.Disassemble(0xE5A1);
+    dis.Disassemble(0xF107);
+    dis.Disassemble(0xF20A);
+    dis.Disassemble(0xF315);
+    dis.Disassemble(0xF418);
+    dis.Disassemble(0xF51E);
+
+
+
 
     dis.Print();
 

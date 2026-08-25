@@ -19,6 +19,9 @@ class Disassembler
 
     private:
         std::stringstream m_fileBuffer;
+        std::string m_outString;
+
+
         void Handle_0_instructions(uint16_t instruction);
         void Handle_1_instructions(uint16_t instruction);
         void Handle_2_instructions(uint16_t instruction);
@@ -28,6 +31,13 @@ class Disassembler
         void Handle_6_instructions(uint16_t instruction);
         void Handle_7_instructions(uint16_t instruction);
         void Handle_8_instructions(uint16_t instruction);
+        void Handle_9_instructions(uint16_t instruction);
+        void Handle_A_instructions(uint16_t instruction);
+        void Handle_B_instructions(uint16_t instruction);
+        void Handle_C_instructions(uint16_t instruction);
+        void Handle_D_instructions(uint16_t instruction);
+        void Handle_E_instructions(uint16_t instruction);
+        void Handle_F_instructions(uint16_t instruction);
 
     
 };

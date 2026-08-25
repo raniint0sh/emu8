@@ -50,6 +50,14 @@ inline std::string printMessage2(std::string text, uint16_t arg1, uint16_t arg2)
     return outString;
 }
 
+inline std::string printMessage3(std::string text, uint16_t arg1, uint16_t arg2, uint16_t arg3){
+    std::string outString;
+    char temp[20];
+    snprintf(temp, sizeof(temp), text.c_str(), arg1, arg2, arg3);
+    outString = temp;
+    return outString;
+}
+
 
 
 }
