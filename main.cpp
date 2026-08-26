@@ -1,43 +1,71 @@
 #import <iostream>
+#include <string>
+#include <iterator>
+#import <fstream>
+
+#import "MemoryMap.h"
 #import "disassembler.h"
+#import "utilities.h"
 
 
-int main()
+int main(int argc, char* argv[])
 {
-    std::cout << "Hello World!" << std::endl;
+    std::cout << argv[1] << std::endl;
+
+
+    std::ifstream inFile(argv[1], std::ios::binary | std::ios::ate);
+    if(!inFile.is_open()){
+        std::cerr << "Failed top pen file!!!" << std::endl;
+        return 1;
+    }
+    
+    // Since we opened at the end, tellg() gives us the total file size
+    int size = inFile.tellg();
+    std::cout << size;
+    
+    // Seek back to the beginning of the file to prepare for reading
+    inFile.seekg(0, std::ios::beg);
+
+    std::vector<char> buffer(size);
+  
+    if(inFile.read(buffer.data(), size)){
+        std::cout << "Successfully read " << size << " bytes." << std::endl;
+    }
+
+
+
+
+    MemoryMap memoryMap;
+    for(int i=0; i < size; i++){
+        memoryMap.m_memory.data[i] = buffer[i];
+    }
+
+    for(int i=0x000; i < 0xFFF; i++){
+        memoryMap.m_memory.raw[i] = util::swapBytes(memoryMap.m_memory.raw[i]);
+    }
 
     Disassembler dis;
+    std::string out;
+    std::stringstream m_fileBuffer;
 
-    dis.Disassemble(0x00E0);
-    dis.Disassemble(0x00EE);
-    dis.Disassemble(0x0123);
-    dis.Disassemble(0x1654);
-    dis.Disassemble(0x2789);
-    dis.Disassemble(0x3124);
-    dis.Disassemble(0x4F87);
-    dis.Disassemble(0x5EA5);
-    dis.Disassemble(0x64B5);
-    dis.Disassemble(0x7A03);
-    
-    dis.Disassemble(0x8131);
-    dis.Disassemble(0x8132);
-    dis.Disassemble(0x8133);
-    dis.Disassemble(0x8134);
-    dis.Disassemble(0x8135);
+    for(uint16_t i=0x000; i < 0XFFF; i++){
+        out = util::printMessage2("%d: %X\n", i, memoryMap.m_memory.raw[i]);
+        m_fileBuffer << out;
+        dis.Disassemble(memoryMap.m_memory.raw[i]);
 
-    dis.Disassemble(0x8246);
-    dis.Disassemble(0x9560);
-    dis.Disassemble(0xA555);
-    dis.Disassemble(0xB222);
-    dis.Disassemble(0xCEFF);
-    dis.Disassemble(0xDAE8);
-    dis.Disassemble(0xE59E);
-    dis.Disassemble(0xE5A1);
-    dis.Disassemble(0xF107);
-    dis.Disassemble(0xF20A);
-    dis.Disassemble(0xF315);
-    dis.Disassemble(0xF418);
-    dis.Disassemble(0xF51E);
+    }
+
+
+
+    std::ofstream outputFile("Temp_Out.txt");
+    if(outputFile.is_open()){
+        outputFile << m_fileBuffer.str();
+        outputFile.close();
+
+    }
+
+
+
 
 
 

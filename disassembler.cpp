@@ -133,6 +133,7 @@ void Disassembler::Handle_5_instructions(uint16_t instruction){
 }
 
 void Disassembler::Handle_6_instructions(uint16_t instruction){
+    printf("HEX: %X\n", instruction);
     m_outString = util::printMessage2("LD V%X, %X\n", 
         util::getRegisterX(instruction),
         util::getLastByte(instruction));

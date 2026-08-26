@@ -58,7 +58,9 @@ inline std::string printMessage3(std::string text, uint16_t arg1, uint16_t arg2,
     return outString;
 }
 
-
+inline uint16_t swapBytes(uint16_t byte){
+    return (((byte & 0xff) << 8) | ((byte & 0xff00) >> 8));  
+}
 
 }
 
