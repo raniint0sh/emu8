@@ -4,6 +4,9 @@
 #include <sstream>
 #include <string>
 #include <format>
+#include <random>
+#include "utilities.h"
+#include "MemoryMap.h"
 
 #ifndef DISASEMBLER_H // include guard
 #define DISASEMBLER_H
@@ -20,6 +23,11 @@ class Disassembler
     private:
         std::stringstream m_fileBuffer;
         std::string m_outString;
+        uint8_t X;
+        uint8_t Y;
+        uint8_t byte;
+        uint16_t addr;
+
 
 
         void Handle_0_instructions(uint16_t instruction);
@@ -39,7 +47,9 @@ class Disassembler
         void Handle_E_instructions(uint16_t instruction);
         void Handle_F_instructions(uint16_t instruction);
 
-    
+        void DrawSprite(uint8_t byte);
+
+        MemoryMap& mem = MemoryMap::getInstance();
 };
 
 #endif

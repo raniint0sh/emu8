@@ -1,11 +1,12 @@
+#include <cstdint>
 #import <iostream>
 #include <string>
-#include <iterator>
 #import <fstream>
 
 #import "MemoryMap.h"
 #import "disassembler.h"
 #import "utilities.h"
+
 
 
 int main(int argc, char* argv[])
@@ -35,23 +36,30 @@ int main(int argc, char* argv[])
 
 
 
-    MemoryMap memoryMap;
+    MemoryMap& mem = MemoryMap::getInstance();
+    int j = 0x200;
     for(int i=0; i < size; i++){
-        memoryMap.m_memory.data[i] = buffer[i];
+        //memoryMap.m_memory.data[i] = buffer[i];
+        //mem.MEMORY.charblock[j] = buffer[i];
+        mem.MEMORY.byteBlock[j] = static_cast<uint8_t>(buffer[i]);
+        j++;
     }
-
+     
     for(int i=0x000; i < 0xFFF; i++){
-        memoryMap.m_memory.raw[i] = util::swapBytes(memoryMap.m_memory.raw[i]);
+        //memoryMap.m_memory.raw[i] = util::swapBytes(memoryMap.m_memory.raw[i]);
+       mem.MEMORY.block[i] = util::swapBytes(mem.MEMORY.block[i]);
     }
-
+  
     Disassembler dis;
     std::string out;
     std::stringstream m_fileBuffer;
-
-    for(uint16_t i=0x000; i < 0XFFF; i++){
-        out = util::printMessage2("%d: %X\n", i, memoryMap.m_memory.raw[i]);
+    mem.PC = 0x200;
+   for(uint16_t i=0x000; i < 0XFFF; i++){
+        uint16_t newPC = mem.PC/2;
+        out = util::printMessage2("%d: %X\n", (mem.PC-512), mem.MEMORY.block[newPC]);
         m_fileBuffer << out;
-        dis.Disassemble(memoryMap.m_memory.raw[i]);
+
+        dis.Disassemble(mem.MEMORY.block[newPC]);
 
     }
 
