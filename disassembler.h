@@ -5,6 +5,7 @@
 #include <string>
 #include <format>
 #include <random>
+#include "Keypad.h"
 #include "utilities.h"
 #include "MemoryMap.h"
 
@@ -27,7 +28,8 @@ class Disassembler
         uint8_t Y;
         uint8_t byte;
         uint16_t addr;
-
+        uint8_t keypress;
+        Keypad m_key;
 
 
         void Handle_0_instructions(uint16_t instruction);

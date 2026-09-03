@@ -39,27 +39,24 @@ int main(int argc, char* argv[])
     MemoryMap& mem = MemoryMap::getInstance();
     int j = 0x200;
     for(int i=0; i < size; i++){
-        //memoryMap.m_memory.data[i] = buffer[i];
-        //mem.MEMORY.charblock[j] = buffer[i];
         mem.MEMORY.byteBlock[j] = static_cast<uint8_t>(buffer[i]);
         j++;
     }
      
-    for(int i=0x000; i < 0xFFF; i++){
-        //memoryMap.m_memory.raw[i] = util::swapBytes(memoryMap.m_memory.raw[i]);
-       mem.MEMORY.block[i] = util::swapBytes(mem.MEMORY.block[i]);
-    }
+    printf("addr: %X",mem.ReadInstruction(0x200));
+
   
     Disassembler dis;
     std::string out;
     std::stringstream m_fileBuffer;
+    uint16_t instruction = 0;
     mem.PC = 0x200;
    for(uint16_t i=0x000; i < 0XFFF; i++){
-        uint16_t newPC = mem.PC/2;
-        out = util::printMessage2("%d: %X\n", (mem.PC-512), mem.MEMORY.block[newPC]);
+         instruction = mem.ReadInstruction(mem.PC);
+        out = util::printMessage2("%d: %X\n", (mem.PC-512), instruction);
         m_fileBuffer << out;
 
-        dis.Disassemble(mem.MEMORY.block[newPC]);
+        dis.Disassemble(instruction);
 
     }
 

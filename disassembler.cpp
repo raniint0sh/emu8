@@ -14,7 +14,6 @@ Disassembler::~Disassembler()
 void Disassembler::Disassemble(uint16_t instruction)
 {
     m_outString.clear();
-    std::cout << instruction << std::endl;
     uint16_t key = (instruction >> util::BIT_SHIT_TO_4_NIBBLE);
     switch(key)
     {
@@ -97,6 +96,8 @@ void Disassembler::Handle_0_instructions(uint16_t instruction){
         m_fileBuffer << "RET\n";
     }
     else if((instruction & 0xF000) == 0x0){
+        //NO OP
+        mem.incrementPC();
         mem.PC = util::getNNN(instruction);
         m_outString = util::printMessage1("SYS %X\n",
             mem.PC);
@@ -139,10 +140,11 @@ void Disassembler::Handle_3_instructions(uint16_t instruction){
 }
 
 void Disassembler::Handle_4_instructions(uint16_t instruction){
-        X = util::getRegisterX(instruction);
+    X = util::getRegisterX(instruction);
     byte = util::getLastByte(instruction);
 
-    if(mem.V[X] != byte){
+    if((mem.V[X] & 0xFF) != byte){
+        mem.incrementPC();
         mem.incrementPC();
         mem.incrementPC();
     }
@@ -150,8 +152,8 @@ void Disassembler::Handle_4_instructions(uint16_t instruction){
         mem.incrementPC();
     }
     m_outString = util::printMessage2("SNE V%X, %X\n", 
-        util::getRegisterX(instruction),
-        util::getLastByte(instruction));
+        X,
+        byte);
     m_fileBuffer << m_outString.c_str();
 }
 
@@ -402,6 +404,7 @@ void Disassembler::Handle_E_instructions(uint16_t instruction){
 
 void Disassembler::Handle_F_instructions(uint16_t instruction){
     uint16_t key = util::getLastByte(instruction);
+    key = key & 0xFF;
     util::BCDType tempBCD;
     switch(key){
         case 0x07:
@@ -412,10 +415,14 @@ void Disassembler::Handle_F_instructions(uint16_t instruction){
                 X);
             break;
         case 0x0A:
-//***************Need to Add LOGIC */
             mem.incrementPC();  
-            m_outString = util::printMessage1("LD V%X, K\n", 
-                util::getRegisterX(instruction));
+            X = util::getRegisterX(instruction);
+            keypress = m_key.GetKeypress();
+            mem.V[X] = keypress;
+            
+            m_outString = util::printMessage2("LD V%X, %X\n", 
+                X,
+                keypress);
             break;
         case 0x15:
             mem.incrementPC();

@@ -4,7 +4,6 @@
 #define MEMORYMAP_H
 
 union memorystructure{
-    uint16_t block[0xFFF/2];
     char charblock[0xFFF];
     uint8_t byteBlock[0xFFF];
 };
@@ -39,8 +38,10 @@ class MemoryMap {
         uint16_t stack[16];
 
         inline void incrementPC(){
-            PC = PC + 2;
+            PC = PC + 1;
         }
+
+        uint16_t ReadInstruction(uint16_t addr);
 
 
 };
