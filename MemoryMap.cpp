@@ -26,7 +26,7 @@ uint16_t MemoryMap::ReadInstruction(uint16_t addr){
     uint16_t result = 0;
     result = MEMORY.byteBlock[addr] << 8;
     result = result + MEMORY.byteBlock[addr + 1];
-    PC = PC + 1;
+    PC = PC + 2;
 return result;
 
 

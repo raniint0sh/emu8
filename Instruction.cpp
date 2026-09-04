@@ -12,6 +12,7 @@ Instruction::~Instruction(){
 
 bool Instruction::Disassemble(uint16_t opcode){
     clear();
+    inst = opcode;
     command = (opcode >> util::BIT_SHIT_TO_4_NIBBLE);
     switch(command)
     {
@@ -47,6 +48,7 @@ bool Instruction::Disassemble(uint16_t opcode){
         case 0x8:
              X = util::getRegisterX(opcode);
              Y = util::getRegisterY(opcode);
+             byte = util::getLastNibble(opcode);
              break;
         case 0x9:
              X = util::getRegisterX(opcode);

@@ -38,7 +38,7 @@ class MemoryMap {
         uint16_t stack[16];
 
         inline void incrementPC(){
-            PC = PC + 1;
+            PC = PC + 2;
         }
 
         uint16_t ReadInstruction(uint16_t addr);

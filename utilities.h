@@ -2,6 +2,8 @@
 #include <sstream>
 #include <string>
 
+#ifndef UTILITIES_H // include guard
+#define UTILITIES_H
 
 namespace util{
 
@@ -78,3 +80,4 @@ namespace util{
 
 }
 
+#endif

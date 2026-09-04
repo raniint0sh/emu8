@@ -21,7 +21,7 @@ class Instruction {
         bool Disassemble(uint16_t opcode);
         void clear();
 
-    private:
+        uint16_t inst;
         uint8_t command;
         uint8_t X;
         uint8_t Y;
