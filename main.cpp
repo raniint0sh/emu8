@@ -14,6 +14,8 @@ int main(int argc, char* argv[])
     Emulator emu8;
     emu8.LoadRom(argv[1]);
 
+
+    
     return 0;
 
 
