@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     std::stringstream m_fileBuffer;
     uint16_t instruction = 0;
     mem.PC = 0x200;
-   for(uint16_t i=0x000; i < 0XFFF; i++){
+   while(true){
         instruction = mem.ReadInstruction(mem.PC);
         out = util::printMessage2("%d: %X\n", (mem.PC-512), instruction);
         m_fileBuffer << out;

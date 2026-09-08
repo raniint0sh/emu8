@@ -1,11 +1,11 @@
 #include "Emulator.h"
 
 Emulator::Emulator(){
-  
+    //initscr();
 }
 
 Emulator::~Emulator(){
-
+    //endwin();
 }
 
 bool Emulator::LoadRom(std::string romPath)
@@ -88,25 +88,19 @@ bool Emulator::Run(){
 
 
 
-    HandleInstruction();
-
-    return true;
-
-
-    for(uint16_t i=0x000; i < 0XFFF; i++){
+    //for(uint16_t i=0x000; i < 0XFFF; i++){
+    while(true){
         opcode = mem.ReadInstruction(mem.PC);
-
-
-        
+        I.Disassemble(opcode);
+        HandleInstruction();
         
         if(DEBUG){
             m_debugOut = util::printMessage2("%d: %X\n", (mem.PC-512), opcode);
             m_fileBuffer << m_debugOut;
         }
-        
-        
-
+               
     }
+    
     return true;
 }
 

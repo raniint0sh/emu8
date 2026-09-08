@@ -14,6 +14,7 @@
 #ifndef EMULATOR_H // include guard
 #define EMULATOR_H
 
+
 class Emulator
 {
     public:
