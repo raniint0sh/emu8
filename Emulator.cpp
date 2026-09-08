@@ -1,7 +1,7 @@
 #include "Emulator.h"
 
 Emulator::Emulator(){
-
+  
 }
 
 Emulator::~Emulator(){
@@ -86,11 +86,17 @@ bool Emulator::Run(){
     uint16_t opcode;
     bool result = true;
 
+
+
+    HandleInstruction();
+
+    return true;
+
+
     for(uint16_t i=0x000; i < 0XFFF; i++){
         opcode = mem.ReadInstruction(mem.PC);
 
-        I.Disassemble(opcode);
-            
+
         
         
         if(DEBUG){
@@ -161,7 +167,8 @@ bool Emulator::HandleInstruction(){
         std::cout << m_debugOut.c_str();
         result = false;
     }
-
+    
+    m_display.printDisplay2();
     return true;
 }
 

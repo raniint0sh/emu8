@@ -9,6 +9,7 @@
 #include "Instruction.h"
 #include "utilities.h"
 #include "MemoryMap.h"
+#include "TDisplay.h"
 
 #ifndef EMULATOR_H // include guard
 #define EMULATOR_H
@@ -23,6 +24,8 @@ class Emulator
         bool Run();
 
     private:
+        TDisplay m_display;
+
         MemoryMap& mem = MemoryMap::getInstance();
         bool DEBUG = true;
         Instruction I;
