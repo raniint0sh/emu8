@@ -168,11 +168,11 @@ bool Emulator::HandleInstruction(){
 
 bool Emulator::Instruction_0(){
     bool result = true;
-    if(I.byte == 0xE0){
+    if((I.byte & 0xFF) == 0xE0){
         //Clear Screen**************
         PrintDebug(0, "CLS\n", m_debugArgs);
     }
-    else if(I.byte == 0xEE){
+    else if((I.byte & 0xFF) == 0xEE){
         mem.PC = mem.stack[mem.SP];
         mem.SP--;
         PrintDebug(0, "RET\n",m_debugArgs);
@@ -222,11 +222,7 @@ bool Emulator::Instruction_3(){
 
 bool Emulator::Instruction_4(){
     bool result = true;
-    if((mem.V[I.X] & 0xFF) != I.byte){
-        mem.incrementPC();
-        mem.incrementPC();
-    }
-    else{
+    if(mem.V[I.X] != I.byte){
         mem.incrementPC();
     }
 
@@ -263,7 +259,7 @@ bool Emulator::Instruction_6(){
 
 bool Emulator::Instruction_7(){
     bool result = true;
-    mem.V[I.X] = mem.V[I.X] + I.byte;
+    mem.V[I.X] = (mem.V[I.X] + I.byte) % 255;
 
     m_debugArgs[0] = I.X;
     m_debugArgs[1] = I.byte;
@@ -277,7 +273,6 @@ bool Emulator::Instruction_9(){
     if(mem.V[I.X] != mem.V[I.Y]){
         mem.incrementPC();
     } 
-
     m_debugArgs[0] = I.X;
     m_debugArgs[1] = I.Y;
     PrintDebug(2, "SNE V%X, V%X\n", m_debugArgs);

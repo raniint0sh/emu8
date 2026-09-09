@@ -25,7 +25,7 @@ class Instruction {
         uint8_t command;
         uint8_t X;
         uint8_t Y;
-        uint8_t byte;
+        int8_t byte;
         uint16_t addr;
         uint8_t keypress;
         Keypad m_key;

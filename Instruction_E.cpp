@@ -3,10 +3,10 @@
 bool Emulator::Instruction_E(){
     bool result = true;
     
-    if(I.byte == 0x9E){
+    if((I.byte & 0xFF) == 0x9E){
         result = Inst_E_Byte_9E();
     }
-    else if(I.byte == 0xA1){
+    else if((I.byte & 0xFF) == 0xA1){
         result = Inst_E_Byte_A1();
     }
     else{
