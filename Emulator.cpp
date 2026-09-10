@@ -222,7 +222,7 @@ bool Emulator::Instruction_3(){
 
 bool Emulator::Instruction_4(){
     bool result = true;
-    if(mem.V[I.X] != I.byte){
+    if(mem.V[I.X] != (I.byte & 0xFF)){
         mem.incrementPC();
     }
 
@@ -259,7 +259,7 @@ bool Emulator::Instruction_6(){
 
 bool Emulator::Instruction_7(){
     bool result = true;
-    mem.V[I.X] = (mem.V[I.X] + I.byte) % 255;
+    mem.V[I.X] = mem.V[I.X] + I.byte;
 
     m_debugArgs[0] = I.X;
     m_debugArgs[1] = I.byte;

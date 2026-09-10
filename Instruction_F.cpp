@@ -119,17 +119,22 @@ bool Emulator::Inst_F_Byte_33(){
 
 bool Emulator::Inst_F_Byte_55(){
     bool result = true;
-    //******************************** */
+    for(int j = 0; j <= I.X; j++){
+        mem.MEMORY.byteBlock[mem.I + j] = mem.V[j];
+    }
 
-    m_debugArgs[0] = I.X;
-    PrintDebug(1, "LD [I], V%X\n", m_debugArgs);
+    m_debugArgs[0] = mem.I;
+    m_debugArgs[1] = I.X;
+    PrintDebug(2, "LD [%X], V%X\n", m_debugArgs);
 
     return result;
 }
 
 bool Emulator::Inst_F_Byte_65(){
     bool result = true;
-    //******************************** */
+    for(int j = 0; j <= I.X; j++){
+        mem.V[j] = mem.MEMORY.byteBlock[mem.I + j];
+    }
 
     m_debugArgs[0] = I.X;
     PrintDebug(1, "LD V%X, [I]\n", m_debugArgs);

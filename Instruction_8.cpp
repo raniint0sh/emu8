@@ -87,6 +87,10 @@ bool Emulator::Inst_8_Nibble_3(){
 bool Emulator::Inst_8_Nibble_4(){
     bool result = true;
     mem.V[I.X] = mem.V[I.X] + mem.V[I.Y];
+    if (mem.V[I.X] > 255){
+        mem.V[0xF] = 1;
+    }
+    mem.V[I.X] = mem.V[I.X] & 0xFF;
 
     m_debugArgs[0] = I.X;
     m_debugArgs[1] = I.Y;
@@ -104,6 +108,7 @@ bool Emulator::Inst_8_Nibble_5(){
         mem.V[0xF] = 0;
     }
     mem.V[I.X] = mem.V[I.X] - mem.V[I.Y];
+    mem.V[I.X] = mem.V[I.X] & 0xFF;
 
     m_debugArgs[0] = I.X;
     m_debugArgs[1] = I.Y;
@@ -114,7 +119,7 @@ bool Emulator::Inst_8_Nibble_5(){
 
 bool Emulator::Inst_8_Nibble_6(){
     bool result = true;
-    if((mem.V[I.X] & 0b0001) == 1){
+    if((mem.V[I.X] & 0b00000001) == 1){
         mem.V[0xF] = 1;
     }
     else {
@@ -123,6 +128,7 @@ bool Emulator::Inst_8_Nibble_6(){
     mem.V[I.X] = mem.V[I.X] / 2;
 
     m_debugArgs[0] = I.X;
+    m_debugArgs[1] = I.X;
     PrintDebug(1, "SHR V%X {, V%X}\n", m_debugArgs);
 
     return result;
@@ -147,7 +153,7 @@ bool Emulator::Inst_8_Nibble_7(){
 
 bool Emulator::Inst_8_Nibble_E(){
     bool result = true;
-    if((mem.V[I.X] & 0b1000) == 1){
+    if((mem.V[I.X] & 0b10000000) == 1){
         mem.V[0xF] = 1;
     }
     else {

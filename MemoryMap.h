@@ -29,7 +29,7 @@ class MemoryMap {
         }
 
         memorystructure MEMORY;
-        uint16_t V[16];
+        uint8_t V[16];
         uint16_t I;
         uint16_t PC;
         uint16_t SP;
