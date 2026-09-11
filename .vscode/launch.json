@@ -10,7 +10,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": ["extras/test_opcode.ch8"],
+            "args": ["extras/flightrunner.ch8"],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "Build C++ File"
             

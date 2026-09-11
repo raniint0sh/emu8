@@ -136,7 +136,7 @@ bool Emulator::Inst_8_Nibble_6(){
 
 bool Emulator::Inst_8_Nibble_7(){
     bool result = true;
-    if(mem.V[I.Y] > mem.V[I.X]){
+    if(mem.V[I.Y] >= mem.V[I.X]){
         mem.V[0xF] = 1;
     }
     else {

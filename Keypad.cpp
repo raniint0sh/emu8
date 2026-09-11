@@ -16,62 +16,44 @@ uint8_t Keypad::GetKeypress(){
         case '3':
             result = 0x3;
             break;
-        case '4':
+        case 'q':
             result = 0x4;
             break;
-        case '5':
+        case 'w':
             result = 0x5;
             break;
-        case '6':
+        case 'e':
             result = 0x6;
             break;
-        case '7':
+        case 'a':
             result = 0x7;
             break;
-        case '8':
+        case 's':
             result = 0x8;
             break;
-        case '9':
+        case 'd':
             result = 0x9;
             break;
-        case '0':
-            result = 0x1;
+        case 'x':
+            result = 0x0;
             break;
-        case 'A':
+        case 'z':
             result = 0xA;
-            break;
-        case 'a':
-            result = 0xA;
-            break;
-        case 'B':
-            result = 0xB;
-            break;
-        case 'b':
-            result = 0xB;
-            break;
-        case 'C':
-            result = 0xC;
             break;
         case 'c':
+            result = 0xB;
+            break;
+        case '4':
             result = 0xC;
             break;
-        case 'D':
+        case 'r':
             result = 0xD;
-            break;
-        case 'd':
-            result = 0xD;
-            break;
-        case 'E':
-            result = 0xE;
-            break;
-        case 'e':
-            result = 0xE;
-            break;
-        case 'F':
-            result = 0xF;
             break;
         case 'f':
-            result = 0xf;
+            result = 0xE;
+            break;
+        case 'v':
+            result = 0xF;
             break;
         default:
             std::cout << "***ERROR with KeyPAD!!!!";
@@ -86,7 +68,7 @@ bool Keypad::isKeyPressed(uint8_t key){
 
     initscr();            // Start ncurses mode
     cbreak();             // Grab keystrokes immediately 
-    //noecho();             // Don't print the keys to the screen
+    noecho();             // Don't print the keys to the screen
     keypad(stdscr, TRUE); // Enable arrow keys
 
     nodelay(stdscr, TRUE);
@@ -103,7 +85,7 @@ bool Keypad::isKeyPressed(uint8_t key){
     }
     //mvaddch(20, 20, ch);
     refresh();
-
+    std::cout<< ch << "\n";
     return result;
 
 }
@@ -112,7 +94,7 @@ bool Keypad::isKeyUnpressed(uint8_t key){
 
     initscr();            // Start ncurses mode
     cbreak();             // Grab keystrokes immediately 
-    //noecho();             // Don't print the keys to the screen
+    noecho();             // Don't print the keys to the screen
     keypad(stdscr, TRUE); // Enable arrow keys
 
     nodelay(stdscr, TRUE);
@@ -120,6 +102,7 @@ bool Keypad::isKeyUnpressed(uint8_t key){
     int ch;
     bool result;
     uint8_t keypressed = toIntChar(key);
+    
     ch = getch();
     if(ch != keypressed){
         result = true;
@@ -147,46 +130,46 @@ uint8_t Keypad::toIntChar(uint8_t key){
             result = '3';
             break;
         case 0x4:
-            result = '4';
+            result = 'q';
             break;
         case 0x5:
-            result = '5';
+            result = 'w';
             break;
         case 0x6:
-            result = '6';
-            break;
-        case 0x7:
-            result = '7';
-            break;
-        case 0x8:
-            result = '8';
-            break;
-        case 0x9:
-            result = '9';
-            break;
-        case 0x0:
-            result = '0';
-            break;
-        case 0xA:
-            result = 'a';
-            break;
-        case 0xB:
-            result = 'b';
-            break;;
-        case 0xC:
-            result = 'c';
-            break;
-        case 0xD:
-            result = 'd';
-            break;
-        case 0xE:
             result = 'e';
             break;
-        case 0xF:
+        case 0x7:
+            result = 'a';
+            break;
+        case 0x8:
+            result = 's';
+            break;
+        case 0x9:
+            result = 'd';
+            break;
+        case 0x0:
+            result = 'x';
+            break;
+        case 0xA:
+            result = 'z';
+            break;
+        case 0xB:
+            result = 'c';
+            break;;
+        case 0xC:
+            result = '4';
+            break;
+        case 0xD:
+            result = 'r';
+            break;
+        case 0xE:
             result = 'f';
             break;
+        case 0xF:
+            result = 'v';
+            break;
         default:
-            result = 99;
+            result = 'P';
     }
 
     return result;

@@ -17,39 +17,4 @@ int main(int argc, char* argv[])
 
     return 0;
 
-
-
-    MemoryMap& mem = MemoryMap::getInstance();
-    Disassembler dis;
-    std::string out;
-    std::stringstream m_fileBuffer;
-    uint16_t instruction = 0;
-    mem.PC = 0x200;
-   while(true){
-        instruction = mem.ReadInstruction(mem.PC);
-        out = util::printMessage2("%d: %X\n", (mem.PC-512), instruction);
-        m_fileBuffer << out;
-
-        dis.Disassemble(instruction);
-
-    }
-
-
-
-    std::ofstream outputFile("Temp_Out.txt");
-    if(outputFile.is_open()){
-        outputFile << m_fileBuffer.str();
-        outputFile.close();
-
-    }
-
-
-
-
-
-
-
-    dis.Print();
-
-    return 0;
 }

@@ -1,11 +1,14 @@
 #include "Emulator.h"
 
-Emulator::Emulator(){
-    //initscr();
+
+Emulator::Emulator(
+){
+    m_DT_timerStarted = false;
+    m_ST_timerStarted = false;
+    std::remove(DEBUG_FILE.c_str());
 }
 
 Emulator::~Emulator(){
-    //endwin();
 }
 
 bool Emulator::LoadRom(std::string romPath)
@@ -40,7 +43,7 @@ bool Emulator::LoadRom(std::string romPath)
 
 void Emulator::PrintDebugFile(){
 
-   std::ofstream outputFile("Emu9Debug.txt");
+   std::ofstream outputFile(DEBUG_FILE);
     if(outputFile.is_open()){
         outputFile << m_fileBuffer.str();
         outputFile.close();
@@ -86,25 +89,21 @@ bool Emulator::Run(){
     uint16_t opcode;
     bool result = true;
 
-
-
-    //for(uint16_t i=0x000; i < 0XFFF; i++){
     while(true){
         opcode = mem.ReadInstruction(mem.PC);
         I.Disassemble(opcode);
-        HandleInstruction();
         
         if(DEBUG){
             m_debugOut = util::printMessage2("%d: %X\n", (mem.PC-512), opcode);
             m_fileBuffer << m_debugOut;
-        
+        }
 
+        HandleInstruction();
+        Handle_timers();
+        m_display.printDisplay2();
         
-            std::ofstream outputFile("Temp_Out.txt");
-            if(outputFile.is_open()){
-                outputFile << m_fileBuffer.str();
-                outputFile.close();
-            }
+        if(DEBUG){
+           PrintDebugFile();
         }
 
     }
@@ -169,17 +168,14 @@ bool Emulator::HandleInstruction(){
         std::cout << m_debugOut.c_str();
         result = false;
     }
-    
-    m_keypad.isKeyPressed(5);
 
-    m_display.printDisplay2();
     return true;
 }
 
 bool Emulator::Instruction_0(){
     bool result = true;
     if((I.byte & 0xFF) == 0xE0){
-        m_display.clear();
+        m_display.clearDisplay();
         PrintDebug(0, "CLS\n", m_debugArgs);
     }
     else if((I.byte & 0xFF) == 0xEE){
@@ -219,7 +215,7 @@ bool Emulator::Instruction_2(){
 
 bool Emulator::Instruction_3(){
     bool result = true;
-    if(mem.V[I.X] == I.byte){
+    if(mem.V[I.X] == (I.byte & 0xFF)){
         mem.incrementPC();
     } 
 
@@ -295,7 +291,7 @@ bool Emulator::Instruction_A(){
     mem.I = I.addr;
 
     m_debugArgs[0] = I.addr;
-    PrintDebug(1, "SNE V%X, V%X\n", m_debugArgs);
+    PrintDebug(1, "LD I, %X\n", m_debugArgs);
 
     return result;
 }
@@ -325,3 +321,51 @@ bool Emulator::Instruction_C(){
     return result;
 }
 
+bool Emulator::Handle_timers(){
+
+    auto interval = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+        std::chrono::duration<double>(1.0 / m_hz)
+    );
+    auto now_time= std::chrono::steady_clock::now();
+
+    if(mem.DT != 0x0)
+    {   
+        m_debugArgs[0] = mem.DT;
+        PrintDebug(1, "DT not 0 : %X\n", m_debugArgs);
+
+        if(m_DT_timerStarted){
+            if(now_time >= m_DT_time){
+                mem.DT--;
+                m_debugArgs[0] = mem.DT;
+                PrintDebug(1, "DT subb : %X\n", m_debugArgs);
+            }
+        }
+        else{
+            m_DT_time = std::chrono::steady_clock::now() + interval; 
+            m_DT_timerStarted = true;   
+            PrintDebug(1, "DT strated : %X\n", m_debugArgs);
+        }
+        if(mem.DT == 0x0){
+            m_DT_timerStarted = false;
+        }
+    }
+     
+    if(mem.ST != 0x0)
+    {   
+        if(m_ST_timerStarted){
+            if(now_time >= m_ST_time){
+                mem.ST--;
+            }
+        }
+        else{
+            m_ST_time = std::chrono::steady_clock::now() + interval; 
+            m_ST_timerStarted = true;   
+        }
+        if(mem.ST == 0x0){
+            m_ST_timerStarted = false;
+        }
+    }
+
+return true;
+
+}

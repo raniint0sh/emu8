@@ -1,7 +1,7 @@
 #include "TDisplay.h"
 
 TDisplay::TDisplay(){
-    clear();
+    clearDisplay();
 }
 
 TDisplay::~TDisplay(){
@@ -37,13 +37,22 @@ void TDisplay::printDisplay(){
     printFrameLine();
 }
 
-void TDisplay::clear(){
+void TDisplay::clearDisplay(){
+    initscr();
+    //erase();
     for(int row = 0;row < ROW;row++){
         for(int col = 0;col < COL;col++){
             m_display[row][col] = ' ';
         }
     }
 
+    for(int row = 0;row < ROW;row++){
+        for(int col = 0;col < COL;col++){
+        //std::cout << "r" << row <<":";
+            mvaddch(row, col, m_display[row][col]);
+        }
+    }
+    refresh(); 
 }
 
 void TDisplay::printFrameLine(){
@@ -57,11 +66,14 @@ void TDisplay::printDisplay2(){
     initscr();
     for(int row = 0;row < ROW;row++){
         for(int col = 0;col < COL;col++){
-        //std::cout << "r" << row <<":";
             mvaddch(row, col, m_display[row][col]);
         }
     }
     
+    if(mem.ST != 0x0){
+        std::cout << "\a" << std::flush;
+    }
+
     // Refresh the screen to show the text
     refresh(); 
     
@@ -77,7 +89,7 @@ void TDisplay::DrawSprite(uint8_t X, uint8_t Y, uint8_t N){
     uint8_t mask = 0b10000000;
     bool currentPixel;
    
-
+    initscr();
     for(int row = Y;row < (Y + N);row++){
         data = mem.MEMORY.byteBlock[location];
         //std::cout << "r" << row <<":";
@@ -101,4 +113,5 @@ void TDisplay::DrawSprite(uint8_t X, uint8_t Y, uint8_t N){
         location++;
         
     }
+     refresh(); 
 }

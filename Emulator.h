@@ -5,6 +5,8 @@
 #include <string>
 #include <format>
 #include <random>
+#include <chrono>
+#include <thread>
 #include "Keypad.h"
 #include "Instruction.h"
 #include "utilities.h"
@@ -13,7 +15,6 @@
 
 #ifndef EMULATOR_H // include guard
 #define EMULATOR_H
-
 
 class Emulator
 {
@@ -25,11 +26,20 @@ class Emulator
         bool Run();
 
     private:
+        std::string DEBUG_FILE = "Emu9Debug.txt";
         TDisplay m_display;
 
         MemoryMap& mem = MemoryMap::getInstance();
-        bool DEBUG = false;
+        bool DEBUG = true;
         Instruction I;
+
+        double m_hz = 60.0; // Desired frequency in Hz (e.g., 10 times per second)
+        bool m_DT_timerStarted;
+        bool m_ST_timerStarted;
+        std::chrono::steady_clock::time_point m_DT_time;
+        std::chrono::steady_clock::time_point m_ST_time;
+
+
 
         bool HandleInstruction();
         bool Instruction_0();
@@ -69,7 +79,7 @@ class Emulator
         bool Inst_F_Byte_55();
         bool Inst_F_Byte_65();
         
-
+        bool Handle_timers();
 
         
         

@@ -23,7 +23,7 @@ public:
     void printDisplay();
     void printDisplay2();
     void DrawSprite(uint8_t X, uint8_t Y, uint8_t N);
-    void clear();
+    void clearDisplay();
 
 private:
 

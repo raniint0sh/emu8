@@ -8,11 +8,34 @@ union memorystructure{
     uint8_t byteBlock[0xFFF];
 };
 
+enum Fonts:uint16_t{
+  
+    F0=0x050,
+    F1=0x055,
+    F2=0x05A,
+    F3=0x05F,
+    F4=0x064,
+    F5=0x069,
+    F6=0x06E,
+    F7=0x073,
+    F8=0x078,
+    F9=0x07D,
+    FA=0x082,
+    FB=0x087,
+    FC=0x08C,
+    FD=0x091,
+    FE=0x095,
+    FF=0x09B
+};
+
+
+
 
 class MemoryMap {
 
     private:
         MemoryMap();
+
     public:
         
         ~MemoryMap();
@@ -42,7 +65,7 @@ class MemoryMap {
         }
 
         uint16_t ReadInstruction(uint16_t addr);
-
+        void LoadFonts();
 
 };
 
