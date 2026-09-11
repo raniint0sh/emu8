@@ -20,8 +20,9 @@ bool Emulator::Instruction_E(){
 
 bool Emulator::Inst_E_Byte_9E(){
     bool result = true;
-    
-//****************************** */
+    if(m_keypad.isKeyPressed(mem.V[I.X])){
+        mem.incrementPC();
+    }
 
     m_debugArgs[0] = I.X;
     m_debugArgs[1] = I.Y;
@@ -32,8 +33,9 @@ bool Emulator::Inst_E_Byte_9E(){
 
 bool Emulator::Inst_E_Byte_A1(){
     bool result = true;
-    
-/******************************* */
+    if(m_keypad.isKeyUnpressed(mem.V[I.X])){
+        mem.incrementPC();
+    }    
 
     m_debugArgs[0] = I.X;
     m_debugArgs[1] = I.Y;

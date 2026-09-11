@@ -28,7 +28,7 @@ class Emulator
         TDisplay m_display;
 
         MemoryMap& mem = MemoryMap::getInstance();
-        bool DEBUG = true;
+        bool DEBUG = false;
         Instruction I;
 
         bool HandleInstruction();
@@ -76,6 +76,8 @@ class Emulator
         void PrintDebugFile();
         void PrintDebug(uint8_t numberOfArgs, std::string statement, uint16_t arguments[3]);
 
+
+        Keypad m_keypad;
         std::string m_debugOut;
         uint16_t m_debugArgs[3];
         std::stringstream m_fileBuffer;

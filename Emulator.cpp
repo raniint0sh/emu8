@@ -97,8 +97,16 @@ bool Emulator::Run(){
         if(DEBUG){
             m_debugOut = util::printMessage2("%d: %X\n", (mem.PC-512), opcode);
             m_fileBuffer << m_debugOut;
+        
+
+        
+            std::ofstream outputFile("Temp_Out.txt");
+            if(outputFile.is_open()){
+                outputFile << m_fileBuffer.str();
+                outputFile.close();
+            }
         }
-               
+
     }
     
     return true;
@@ -162,6 +170,8 @@ bool Emulator::HandleInstruction(){
         result = false;
     }
     
+    m_keypad.isKeyPressed(5);
+
     m_display.printDisplay2();
     return true;
 }
@@ -169,7 +179,7 @@ bool Emulator::HandleInstruction(){
 bool Emulator::Instruction_0(){
     bool result = true;
     if((I.byte & 0xFF) == 0xE0){
-        //Clear Screen**************
+        m_display.clear();
         PrintDebug(0, "CLS\n", m_debugArgs);
     }
     else if((I.byte & 0xFF) == 0xEE){

@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <iostream>
+#include <ncurses.h>
 
 
 #ifndef KEYPAD_H // include guard
@@ -26,6 +27,10 @@ uint8_t GetKeypress();
 inline void clear(){
     m_keypressed = 0;
 }
+    bool isKeyPressed(uint8_t key);
+    bool isKeyUnpressed(uint8_t key);
+    uint8_t toIntChar(uint8_t key);
+
 
 private:
 uint8_t m_keypressed;
