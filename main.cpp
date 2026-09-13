@@ -1,13 +1,8 @@
-#include <cstdint>
-
 #include <string>
-#include <fstream>
 #include "Emulator.h"
 #include "MemoryMap.h"
 #include "disassembler.h"
 #include "utilities.h"
-
-
 
 int main(int argc, char* argv[])
 {

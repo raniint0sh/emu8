@@ -89,7 +89,7 @@ void TDisplay::DrawSprite(uint8_t X, uint8_t Y, uint8_t N){
     uint8_t mask = 0b10000000;
     bool currentPixel;
    
-    initscr();
+    //initscr();
     for(int row = Y;row < (Y + N);row++){
         data = mem.MEMORY.byteBlock[location];
         //std::cout << "r" << row <<":";
@@ -102,7 +102,11 @@ void TDisplay::DrawSprite(uint8_t X, uint8_t Y, uint8_t N){
                 }
                 else{
                     m_display[row][col] = BIT_ON;
-                }            
+                } 
+            }
+            else{
+                m_display[row][col] = BIT_OFF;           
+                    
             }
             if (col >= COL){
                 continue;
@@ -113,5 +117,5 @@ void TDisplay::DrawSprite(uint8_t X, uint8_t Y, uint8_t N){
         location++;
         
     }
-     refresh(); 
+     //refresh(); 
 }

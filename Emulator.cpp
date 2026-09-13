@@ -9,6 +9,7 @@ Emulator::Emulator(
 }
 
 Emulator::~Emulator(){
+    PrintDebugFile();
 }
 
 bool Emulator::LoadRom(std::string romPath)
@@ -94,7 +95,7 @@ bool Emulator::Run(){
         I.Disassemble(opcode);
         
         if(DEBUG){
-            m_debugOut = util::printMessage2("%d: %X\n", (mem.PC-512), opcode);
+            m_debugOut = util::printMessage2("%d: %X\n", (mem.PC-514), opcode);
             m_fileBuffer << m_debugOut;
         }
 

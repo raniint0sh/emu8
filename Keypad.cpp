@@ -85,7 +85,6 @@ bool Keypad::isKeyPressed(uint8_t key){
     }
     //mvaddch(20, 20, ch);
     refresh();
-    std::cout<< ch << "\n";
     return result;
 
 }
@@ -106,11 +105,13 @@ bool Keypad::isKeyUnpressed(uint8_t key){
     ch = getch();
     if(ch != keypressed){
         result = true;
+     //   std::cout << ch << "\n";
     }
     else{
         result = false;
     }
     //mvaddch(20, 20, ch);
+    
     refresh();
 
     return result;
